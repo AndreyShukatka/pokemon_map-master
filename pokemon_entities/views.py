@@ -66,7 +66,7 @@ def show_pokemon(request, pokemon_id):
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in PokemonEntity.objects.filter(
-            pokemon = requested_pokemon,
+            pokemon=requested_pokemon,
             appeared_at__lte=localtime(),
             disappeared_at__gte=localtime()
     ):
@@ -76,11 +76,11 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.pokemon.image.path
         )
     pokemon = {}
-    pokemon['title_ru']=requested_pokemon.title_ru
+    pokemon['title_ru'] = requested_pokemon.title_ru
     pokemon['title_en'] = requested_pokemon.title_en
     pokemon['title_jp'] = requested_pokemon.title_ja
-    pokemon['img_url']=requested_pokemon.image.url
-    pokemon['description']=requested_pokemon.description
+    pokemon['img_url'] = requested_pokemon.image.url
+    pokemon['description'] = requested_pokemon.description
     if requested_pokemon.previous_evolution:
         pokemon['previous_evolution'] = {
             'title_ru': requested_pokemon.previous_evolution.title_ru,
