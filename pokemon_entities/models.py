@@ -2,13 +2,13 @@ from django.db import models
 
 class Pokemon(models.Model):
     title_ru = models.CharField(max_length=200, verbose_name='Название на русском')
-    title_en = models.TextField(null=True, verbose_name='Название на английском')
-    title_ja = models.TextField(null=True, verbose_name='Название на японском')
+    title_en = models.TextField(blank=True, verbose_name='Название на английском')
+    title_ja = models.TextField(blank=True, verbose_name='Название на японском')
     image = models.ImageField(
         blank=True, default='None',
         verbose_name='Картинка'
     )
-    description = models.TextField(null=True, verbose_name='Описание')
+    description = models.TextField(blank=True, verbose_name='Описание')
     previous_evolution = models.ForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True,
@@ -36,10 +36,10 @@ class PokemonEntity(models.Model):
         null=True,
         verbose_name='Дата исчезновения'
     )
-    level = models.IntegerField(null=True, verbose_name='Уровень')
-    health = models.IntegerField(null=True, verbose_name='Здоровье')
-    strength = models.IntegerField(null=True, verbose_name='Атака')
-    defence = models.IntegerField(null=True, verbose_name='Защита')
-    stamina = models.IntegerField(null=True, verbose_name='Выносливость')
+    level = models.IntegerField(blank=True, verbose_name='Уровень')
+    health = models.IntegerField(blank=True, verbose_name='Здоровье')
+    strength = models.IntegerField(blank=True, verbose_name='Атака')
+    defence = models.IntegerField(blank=True, verbose_name='Защита')
+    stamina = models.IntegerField(blank=True, verbose_name='Выносливость')
     def __str__(self):
         return self.pokemon.title_ru
