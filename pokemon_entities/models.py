@@ -1,9 +1,16 @@
 from django.db import models
 
+
 class Pokemon(models.Model):
-    title_ru = models.CharField(max_length=200, verbose_name='Название на русском')
-    title_en = models.TextField(blank=True, verbose_name='Название на английском')
-    title_ja = models.TextField(blank=True, verbose_name='Название на японском')
+    title_ru = models.CharField(
+        max_length=200, verbose_name='Название на русском'
+    )
+    title_en = models.TextField(
+        blank=True, verbose_name='Название на английском'
+    )
+    title_ja = models.TextField(
+        blank=True, verbose_name='Название на японском'
+    )
     image = models.ImageField(
         blank=True, default='None',
         verbose_name='Картинка'
@@ -12,7 +19,7 @@ class Pokemon(models.Model):
     previous_evolution = models.ForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True,
-        related_name = 'next_evolution',
+        related_name='next_evolution',
         verbose_name='Развитие'
 
     )
@@ -41,5 +48,6 @@ class PokemonEntity(models.Model):
     strength = models.IntegerField(blank=True, verbose_name='Атака')
     defence = models.IntegerField(blank=True, verbose_name='Защита')
     stamina = models.IntegerField(blank=True, verbose_name='Выносливость')
+
     def __str__(self):
         return self.pokemon.title_ru
