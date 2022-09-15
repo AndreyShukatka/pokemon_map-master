@@ -87,12 +87,12 @@ def show_pokemon(request, pokemon_id):
             'pokemon_id': requested_pokemon.previous_evolution.id,
             'img_url': requested_pokemon.previous_evolution.image.url
         }
-    next_evolution = requested_pokemon.next_evolution.first()
-    if next_evolution:
-        pokemon['next_evolution'] = {
-            'title_ru': next_evolution.title_ru,
-            'pokemon_id': next_evolution.id,
-            'img_url': next_evolution.image.url
+    next_evolutions = requested_pokemon.next_evolutions.first()
+    if next_evolutions:
+        pokemon['next_evolutions'] = {
+            'title_ru': next_evolutions.title_ru,
+            'pokemon_id': next_evolutions.id,
+            'img_url': next_evolutions.image.url
         }
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon
