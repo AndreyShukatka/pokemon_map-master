@@ -4,6 +4,7 @@ from django.utils.timezone import localtime
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from .models import Pokemon, PokemonEntity
+from django.shortcuts import get_object_or_404
 
 
 MOSCOW_CENTER = [55.751244, 37.618423]
@@ -56,14 +57,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemons = Pokemon.objects.all()
-    for pokemon in pokemons:
-        if pokemon.id == int(pokemon_id):
-            requested_pokemon = pokemon
-            break
-    else:
-        return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
-
+    requested_pokemon = get_object_or_404(Pokemon, id=pokemon_id)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in PokemonEntity.objects.filter(
             pokemon=requested_pokemon,
@@ -75,12 +69,13 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.lon,
             pokemon_entity.pokemon.image.path
         )
-    pokemon = {}
-    pokemon['title_ru'] = requested_pokemon.title_ru
-    pokemon['title_en'] = requested_pokemon.title_en
-    pokemon['title_jp'] = requested_pokemon.title_ja
-    pokemon['img_url'] = requested_pokemon.image.url
-    pokemon['description'] = requested_pokemon.description
+    pokemon = {
+        'title_ru': requested_pokemon.title_ru,
+        'title_en': requested_pokemon.title_en,
+        'title_jp': requested_pokemon.title_ja,
+        'img_url': requested_pokemon.image.url,
+        'description': requested_pokemon.description
+    }
     if requested_pokemon.previous_evolution:
         pokemon['previous_evolution'] = {
             'title_ru': requested_pokemon.previous_evolution.title_ru,
